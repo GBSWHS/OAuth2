@@ -12,7 +12,6 @@ import (
 func identApi(db *gorm.DB, codes *[]codeStructure) func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
 		var body identBody
-		c.BodyParser(&body)
 
 		err := c.BodyParser(&body)
 		if err != nil {

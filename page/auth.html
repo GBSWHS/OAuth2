@@ -10,9 +10,12 @@
   </head>
   <body>
     <a class="logo" title="학교 사이트로 이동" href="http://gbsw.school.gyo6.net"><img width="150" src="/img/symbol-only.png" alt=""></a>
-
     <div class="container">
       <div class="display">
+        <div class="title">
+          <h3>경북소프트웨어고등학교</h3>
+          <p>학생 통합 로그인</p>
+        </div>
         <noscript>
           <p>이 사이트의 기능을 이용하려면 자바스크립트를 활성화해야 합니다.</p>
           <p>여기에 <a href="https://www.enablejavascript.io/kw">웹 브라우저에서 자바스크립트를 활성화하는 방법에 대한 설명이 있습니다</a>.</p>
@@ -24,16 +27,19 @@
           <div id="login-notice"></div>
           <form id="login">
             <label for="id">학번</label>
-            <input required type="text" id="id" name="id" placeholder="학번를 입력하세요">
+            <input required type="text" id="id" name="id" placeholder="학번를 입력하세요" autocomplete="off">
 
             <label for="password">비밀번호</label>
-            <input required type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+            <input required type="password" id="password" name="password" autocomplete="current-password" placeholder="비밀번호를 입력하세요">
 
-            <button type="submit">로그인!</button>
+            <button type="submit">로그인</button><span class="copyright">&copy; gbswhs. 2021.</span>
           </form>
         </div>
       </div>
     </div>
+    
+    <script src="https://www.google.com/recaptcha/api.js?render={{captcha_id}}"></script>
+    <script>const recaptcha_site_key = '{{captcha_id}}';</script>
     <script src="/js/auth.js"></script>
   </body>
 </html>

@@ -37,6 +37,13 @@ func loginApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) func(c *f
 			})
 		}
 
+		if result, err := verifyCaptcha(c.IP(), body.Captcha); err != nil || !result.Success {
+			return c.Status(400).JSON(checkClientResponse{
+				Success: false,
+				Message: ERROR_captcha_NOT_PROVIDED,
+			})
+		}
+
 		var user User
 		result := db.First(&user, "id = ?", body.ID)
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {

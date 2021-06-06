@@ -32,25 +32,29 @@
         loginform.onsubmit = function (ev) {
           ev.preventDefault()
 
-          const req2 = new XMLHttpRequest()
-          req2.open('POST', '/api/login', true)
-
-          req2.setRequestHeader('Content-Type', 'application/json')
-          req2.onreadystatechange = function () {
-            if (this.readyState === 4) {
-              const res = JSON.parse(this.responseText)
-              
-              if (!res.success) {
-                loginNotice.innerText = res.message
-                return
+          grecaptcha.ready(function() {
+            grecaptcha.execute(recaptcha_site_key, {action: 'submit'}).then(function(token) {
+              const req2 = new XMLHttpRequest()
+              req2.open('POST', '/api/login', true)
+    
+              req2.setRequestHeader('Content-Type', 'application/json')
+              req2.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                  const res = JSON.parse(this.responseText)
+                  
+                  if (!res.success) {
+                    loginNotice.innerText = res.message
+                    return
+                  }
+    
+                  window.localStorage.setItem('token', res.token)
+                  window.location.reload()
+                }
               }
-
-              window.localStorage.setItem('token', res.token)
-              window.location.reload()
-            }
-          }
-
-          req2.send(JSON.stringify({ id: loginform.id.value, password: loginform.password.value }))
+    
+              req2.send(JSON.stringify({ id: loginform.id.value, password: loginform.password.value, captcha: token }))
+            });
+          });
         }
 
         return

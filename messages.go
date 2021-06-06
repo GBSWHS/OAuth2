@@ -10,6 +10,7 @@ const ERROR_response_type_NOT_MATCH = "요청한 `response_type`은 지원하지
 
 const ERROR_user_id_NOT_PROVIDED = "아이디, 비밀번호를 입력해 주세요."
 const ERROR_user_password_NOT_PROVIDED = "아이디, 비밀번호를 입력해 주세요."
+const ERROR_captcha_NOT_PROVIDED = "CAPTCHA 오류.\n관리자의 동의 없는 자동화는 금지됩니다. (다시시도해 보세요)"
 
 const ERROR_user_id_NOT_MATCH = "사용자를 찾을 수 없습니다.\n아이디, 비밀번호를 확인해 주세요."
 const ERROR_user_password_NOT_MATCH = "비밀번호가 맞지 않습니다.\n아이디, 비밀번호를 확인해 주세요."

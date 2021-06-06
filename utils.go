@@ -1,9 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"math/rand"
+	"os"
 	"strings"
 	"time"
+
+	"github.com/valyala/fasthttp"
 )
 
 func check(err error) {
@@ -26,4 +30,22 @@ func randString(length int) string {
 	}
 
 	return b.String() // E.g. "ExcbsVQs"
+}
+
+func verifyCaptcha(ip, token string) (result captchaResponse, err error) {
+	req := fasthttp.AcquireRequest()
+	req.SetRequestURI("https://www.google.com/recaptcha/api/siteverify")
+	req.Header.SetMethod("POST")
+	req.SetBodyString("secret=" + os.Getenv("CAPTCHA_SECRET_KEY") + "&response=" + token + "&remoteip=" + ip)
+
+	resp := fasthttp.AcquireResponse()
+	client := &fasthttp.Client{}
+	client.Do(req, resp)
+
+	bodyBytes := resp.Body()
+	if err := json.Unmarshal(bodyBytes, &result); err != nil {
+		return captchaResponse{}, err
+	}
+
+	return result, nil
 }

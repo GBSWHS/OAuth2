@@ -52,6 +52,7 @@ type checkClientResponse struct {
 type loginBody struct {
 	ID       string `json:"id" xml:"id" form:"id"`
 	Password string `json:"password" xml:"password" form:"password"`
+	Captcha  string `json:"captcha" xml:"captcha" form:"captcha"`
 }
 
 type loginResponse struct {
@@ -80,4 +81,8 @@ type identResponse struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
 	User    User   `json:"user"`
+}
+
+type captchaResponse struct {
+	Success bool `json:"success"`
 }
