@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"errors"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -37,11 +38,13 @@ func loginApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) func(c *f
 			})
 		}
 
-		if result, err := verifyCaptcha(c.IP(), body.Captcha); err != nil || !result.Success {
-			return c.Status(400).JSON(checkClientResponse{
-				Success: false,
-				Message: ERROR_captcha_NOT_PROVIDED,
-			})
+		if os.Getenv("ENVIROMENT") != "DEVELOPMENT" {
+			if result, err := verifyCaptcha(getRealIp(c), body.Captcha); err != nil || !result.Success {
+				return c.Status(400).JSON(checkClientResponse{
+					Success: false,
+					Message: ERROR_captcha_NOT_PROVIDED,
+				})
+			}
 		}
 
 		var user User

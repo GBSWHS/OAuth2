@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/valyala/fasthttp"
 )
 
@@ -48,4 +49,15 @@ func verifyCaptcha(ip, token string) (result captchaResponse, err error) {
 	}
 
 	return result, nil
+}
+
+func getRealIp(c *fiber.Ctx) string {
+	recived := c.IP()
+	header := string(c.Request().Header.Peek("X-Real-IP"))
+
+	if len(header) < 1 {
+		return recived
+	}
+
+	return header
 }

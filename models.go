@@ -35,11 +35,11 @@ type User struct {
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
 }
 
-type checkClientBody struct {
-	ID           string `json:"client_id" xml:"client_id" form:"client_id"`
-	RedirectUri  string `json:"redirect_uri" xml:"redirect_uri" form:"redirect_uri"`
-	ResponseType string `json:"response_type" xml:"response_type" form:"response_type"`
-	State        string `json:"state" xml:"state" form:"state"`
+type checkClientQuery struct {
+	ID           string `query:"client_id"`
+	RedirectUri  string `query:"redirect_uri"`
+	ResponseType string `query:"response_type"`
+	State        string `query:"state"`
 }
 
 type checkClientResponse struct {

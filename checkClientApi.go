@@ -12,10 +12,10 @@ import (
 
 func checkClientApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		var body checkClientBody
+		var body checkClientQuery
 		authorization := string(c.Request().Header.Peek("Authorization"))
 
-		err := c.BodyParser(&body)
+		err := c.QueryParser(&body)
 		if err != nil {
 			return c.Status(400).JSON(checkClientResponse{
 				Success: false,
@@ -67,27 +67,27 @@ func checkClientApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) fun
 			})
 		}
 
-		if strings.HasPrefix(authorization, "Bearer") {
+		if strings.HasPrefix(authorization, "Bearer") && len(strings.Split(authorization, " ")) > 1 {
 			token, err := jwt.Parse(strings.Split(authorization, " ")[1], func(t *jwt.Token) (interface{}, error) {
 				return []byte(tokenSecret), nil
 			})
 
-			if token.Method.Alg() != "HS256" {
-				return c.JSON(checkClientResponse{Success: true, NeedLogin: true})
-			}
-
-			claims, ok := token.Claims.(jwt.MapClaims)
-			if !ok {
-				return c.JSON(checkClientResponse{Success: true, NeedLogin: true})
-			}
-
-			var user User
-			result := db.First(&user, "id = ?", claims["id"])
-			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-				return c.JSON(checkClientResponse{Success: true, NeedLogin: true})
-			}
-
 			if err == nil && token.Valid {
+				if token.Method.Alg() != "HS256" {
+					return c.JSON(checkClientResponse{Success: true, NeedLogin: true})
+				}
+
+				claims, ok := token.Claims.(jwt.MapClaims)
+				if !ok {
+					return c.JSON(checkClientResponse{Success: true, NeedLogin: true})
+				}
+
+				var user User
+				result := db.First(&user, "id = ?", claims["id"])
+				if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+					return c.JSON(checkClientResponse{Success: true, NeedLogin: true})
+				}
+
 				code := codeStructure{
 					Value:       randString(32),
 					ExpireAt:    time.Now().Add(time.Duration(1) * time.Minute),
