@@ -28,6 +28,10 @@ func main() {
 	app.Post("/api/login", loginApi(db, tokenSecret, &codes))
 	app.Get("/api/checkClient", checkClientApi(db, tokenSecret, &codes))
 
+	if !isInited(db) {
+		initClient(db)
+	}
+
 	port := os.Getenv("PORT")
 	if len(port) < 1 {
 		port = ":8080"

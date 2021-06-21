@@ -8,7 +8,7 @@ import (
 )
 
 type Client struct {
-	ID          uint `gorm:"primaryKey"`
+	ID          *uint `gorm:"primaryKey"`
 	Secret      string
 	RedirectUri string
 	UsedCount   uint
