@@ -21,6 +21,10 @@ func initClient(db *gorm.DB) {
 		RedirectUri: "/dash",
 		UsedCount:   0,
 		OwnerId:     "0",
+		Name:        "학생 통합 로그인 시스템",
+		Icon:        "/img/symbol-only.png",
+		Website:     "https://auth.gbsw.hs.kr",
+		Description: "학생 통합 로그인 시스템입니다.",
 		Owner: User{
 			ID:          "0",
 			Grade:       0,

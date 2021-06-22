@@ -82,9 +82,9 @@ func identApi(db *gorm.DB, codes *[]codeStructure) func(c *fiber.Ctx) error {
 		var code *codeStructure
 		for i, value := range *codes {
 			log.Print(value)
-			if !value.Used && value.ExpireAt.After(time.Now()) && value.Value == body.Code {
+			if value.ExpireAt.After(time.Now()) && value.Value == body.Code {
 				code = &value
-				(*codes)[i].Used = true
+				*codes = removeItem(*codes, i)
 			}
 		}
 
@@ -113,7 +113,15 @@ func identApi(db *gorm.DB, codes *[]codeStructure) func(c *fiber.Ctx) error {
 
 		return c.JSON(identResponse{
 			Success: true,
-			User:    user,
+			User: S_User{
+				ID:          user.ID,
+				Grade:       user.Grade,
+				Class:       user.Class,
+				ClassNumber: user.ClassNumber,
+				RoomNumber:  user.RoomNumber,
+				Name:        user.Name,
+				Nickname:    user.Nickname,
+			},
 		})
 	}
 }

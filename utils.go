@@ -17,6 +17,11 @@ func check(err error) {
 	}
 }
 
+func removeItem(slice []codeStructure, i int) []codeStructure {
+	slice[len(slice)-1], slice[i] = slice[i], slice[len(slice)-1]
+	return slice[:len(slice)-1]
+}
+
 func randString(length int) string {
 	rand.Seed(time.Now().UnixNano())
 

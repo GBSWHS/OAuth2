@@ -92,7 +92,6 @@ func checkClientApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) fun
 					Value:       randString(32),
 					ExpireAt:    time.Now().Add(time.Duration(1) * time.Minute),
 					RedirectUri: client.RedirectUri,
-					Used:        false,
 					UserID:      user.ID,
 				}
 				*codes = append(*codes, code)

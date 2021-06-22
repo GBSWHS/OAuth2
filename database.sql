@@ -1,13 +1,17 @@
 create database oauth;
 create table oauth.clients (
   id int unsigned not null primary key,
+  `name` varchar(20) not null,
   `secret` varchar(30) not null,
   redirect_uri text not null,
   used_count int unsigned default 0 not null,
   owner_id varchar(20) not null,
   created_at datetime not null,
   updated_at datetime not null,
-  deleted_at datetime
+  deleted_at datetime,
+  `description` text,
+  website text,
+  icon text
 );
 
 create table oauth.users (

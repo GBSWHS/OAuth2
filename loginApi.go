@@ -66,6 +66,7 @@ func loginApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) func(c *f
 
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 			"id":  user.ID,
+			"exp": time.Now().Unix() + 60*60*1000,
 			"iat": time.Now().Unix(),
 		})
 

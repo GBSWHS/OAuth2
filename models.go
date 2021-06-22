@@ -9,6 +9,7 @@ import (
 
 type Client struct {
 	ID          *uint `gorm:"primaryKey"`
+	Name        string
 	Secret      string
 	RedirectUri string
 	UsedCount   uint
@@ -17,6 +18,23 @@ type Client struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
+	Icon        string
+	Description string
+	Website     string
+}
+
+type S_Client struct {
+	ID          uint      `json:"id"`
+	Name        string    `json:"name"`
+	Icon        string    `json:"icon"`
+	Secret      string    `json:"secret"`
+	Website     string    `json:"website"`
+	Description string    `json:"description"`
+	RedirectUri string    `json:"redirect_uri"`
+	OwnerId     string    `json:"owner_id"`
+	UsedCount   uint      `json:"used_count"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 type User struct {
@@ -33,6 +51,16 @@ type User struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
+}
+
+type S_User struct {
+	ID          string         `json:"id"`
+	Grade       uint           `json:"grade"`
+	Class       uint           `json:"class"`
+	ClassNumber uint           `json:"class_number"`
+	RoomNumber  uint           `json:"room_number"`
+	Name        string         `json:"name"`
+	Nickname    sql.NullString `json:"nickname"`
 }
 
 type checkClientQuery struct {
@@ -65,7 +93,6 @@ type codeStructure struct {
 	Value       string
 	ExpireAt    time.Time
 	RedirectUri string
-	Used        bool
 	UserID      string
 }
 
@@ -80,9 +107,34 @@ type identBody struct {
 type identResponse struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
-	User    User   `json:"user"`
+	User    S_User `json:"user"`
 }
 
 type captchaResponse struct {
 	Success bool `json:"success"`
+}
+
+type clientResponse struct {
+	Success bool     `json:"success"`
+	Client  S_Client `json:"client"`
+}
+
+type clientsResponse struct {
+	Success bool       `json:"success"`
+	Clients []S_Client `json:"clients"`
+}
+
+type createClientBody struct {
+	Name        string `json:"name" xml:"name" form:"name"`
+	Icon        string `json:"icon" xml:"icon" form:"icon"`
+	RedirectUri string `json:"redirect_uri" xml:"redirect_uri" form:"redirect_uri"`
+	Description string `json:"description" xml:"description" form:"description"`
+	Website     string `json:"website" xml:"website" form:"website"`
+	OwnerId     string `json:"owner_id" xml:"owner_id" form:"owner_id"`
+	Captcha     string `json:"captcha" xml:"captcha" form:"captcha"`
+}
+
+type createClientResponse struct {
+	Success bool   `json:"success"`
+	Message string `json:"message"`
 }
