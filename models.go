@@ -111,7 +111,10 @@ type identResponse struct {
 }
 
 type captchaResponse struct {
-	Success bool `json:"success"`
+	Success    bool     `json:"success"`
+	Action     string   `json:"action"`
+	Score      float64  `json:"score"`
+	ErrorCodes []string `json:"error-codes"`
 }
 
 type clientResponse struct {
