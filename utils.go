@@ -39,9 +39,8 @@ func randString(length int) string {
 
 func verifyCaptcha(token string) (result captchaResponse, err error) {
 	req := fasthttp.AcquireRequest()
-	req.SetRequestURI("https://www.google.com/recaptcha/api/siteverify")
+	req.SetRequestURI("https://www.google.com/recaptcha/api/siteverify?secret=" + os.Getenv("CAPTCHA_SECRET_KEY") + "&response=" + token)
 	req.Header.SetMethod("POST")
-	req.SetBodyString("secret=" + os.Getenv("CAPTCHA_SECRET_KEY") + "&response=" + token)
 
 	resp := fasthttp.AcquireResponse()
 	client := &fasthttp.Client{}
