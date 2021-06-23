@@ -39,7 +39,7 @@ func loginApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) func(c *f
 		}
 
 		if os.Getenv("ENVIROMENT") != "DEVELOPMENT" {
-			if result, err := verifyCaptcha(getRealIp(c), body.Captcha); err != nil || !result.Success {
+			if result, err := verifyCaptcha(body.Captcha); err != nil || !result.Success {
 				return c.Status(400).JSON(checkClientResponse{
 					Success: false,
 					Message: ERROR_captcha_NOT_PROVIDED,

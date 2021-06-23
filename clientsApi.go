@@ -97,7 +97,7 @@ func clientsCreateApi(db *gorm.DB) func(c *fiber.Ctx) error {
 		}
 
 		if os.Getenv("ENVIROMENT") != "DEVELOPMENT" {
-			if result, err := verifyCaptcha(getRealIp(c), body.Captcha); err != nil || !result.Success {
+			if result, err := verifyCaptcha(body.Captcha); err != nil || !result.Success {
 				return c.Status(400).JSON(createClientResponse{
 					Success: false,
 				})
