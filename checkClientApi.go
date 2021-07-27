@@ -103,6 +103,7 @@ func checkClientApi(db *gorm.DB, tokenSecret string, codes *[]codeStructure) fun
 
 				return c.JSON(checkClientResponse{
 					Success:   true,
+					Message:   user.Name + "|" + client.Name,
 					NeedLogin: false,
 					Redirect:  client.RedirectUri + "?code=" + code.Value + state,
 				})
