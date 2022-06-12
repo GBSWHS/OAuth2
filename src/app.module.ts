@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ThrottlerModule } from '@nestjs/throttler'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AppController } from './app.controller'
@@ -11,7 +12,28 @@ import { Oauth2Module } from './oauth2/oauth2.module'
     ConfigModule.forRoot({
       isGlobal: true
     }),
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('db.host'),
+        port: configService.get('db.port'),
+        username: configService.get('db.username'),
+        password: configService.get('db.password'),
+        database: configService.get('db.database'),
+        entities: ['../dist/**/*.entity{.ts,.js}'],
+        synchronize: configService.get('db.synchronize')
+      }),
+      inject: [ConfigService]
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        ttl: configService.get('throttler.ttl'),
+        max: configService.get('throttler.max')
+      }),
+      inject: [ConfigService]
+    }),
     Oauth2Module
   ],
   controllers: [AppController],

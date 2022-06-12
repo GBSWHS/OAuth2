@@ -6,4 +6,5 @@ import { Oauth2Controller } from './oauth2.controller'
   providers: [Oauth2Service],
   controllers: [Oauth2Controller]
 })
+
 export class Oauth2Module {}
