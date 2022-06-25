@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { ThrottlerModule } from '@nestjs/throttler'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { Oauth2Module } from './oauth2/oauth2.module'
+import { OauthModule } from './oauth/oauth.module'
+import { UserModule } from './user/user.module'
+import { HealthModule } from './health/health.module'
 
 @Module({
   imports: [
@@ -21,8 +21,8 @@ import { Oauth2Module } from './oauth2/oauth2.module'
         username: configService.get('db.username'),
         password: configService.get('db.password'),
         database: configService.get('db.database'),
-        entities: ['../dist/**/*.entity{.ts,.js}'],
-        synchronize: configService.get('db.synchronize')
+        entities: ['dist/**/*.entity.{ts,js}'],
+        synchronize: true
       }),
       inject: [ConfigService]
     }),
@@ -34,9 +34,9 @@ import { Oauth2Module } from './oauth2/oauth2.module'
       }),
       inject: [ConfigService]
     }),
-    Oauth2Module
-  ],
-  controllers: [AppController],
-  providers: [AppService]
+    OauthModule,
+    UserModule,
+    HealthModule
+  ]
 })
 export class AppModule {}
