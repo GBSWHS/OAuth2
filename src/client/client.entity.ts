@@ -1,10 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { UserEntity } from '../user/user.entity'
 
 @Entity('client')
 export class ClientEntity {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-    id: number
+  @PrimaryGeneratedColumn('uuid')
+    id: string
 
   @Column({ type: 'varchar', length: 255 })
     secret: string
@@ -21,15 +21,19 @@ export class ClientEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
     website?: string
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ name: 'redirect_uri', type: 'varchar', length: 255, nullable: true })
     redirectUri?: string
 
   @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-    createdAt: Date
+    createdAt: number
 
   @Column({ name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-    updatedAt: Date
+    updatedAt: number
 
-  @ManyToOne((type: UserEntity) => UserEntity)
-    user: UserEntity
+  @Column({ name: 'user_id' })
+    userId: number
+
+  // @OneToMany(() => UserEntity, (c) => c.id, { eager: true })
+  // @JoinColumn({ name: 'user_id' })
+  //  user: UserEntity
 }

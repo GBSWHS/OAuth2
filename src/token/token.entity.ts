@@ -1,12 +1,9 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm'
 import { ClientEntity } from '../client/client.entity'
 import { UserEntity } from '../user/user.entity'
 
 @Entity('authorization_code')
 export class AuthorizationCodeEntity {
-  @PrimaryGeneratedColumn()
-    id: number
-
   @Column({ length: 22 })
     code: string
 
@@ -16,17 +13,17 @@ export class AuthorizationCodeEntity {
   @Column({ type: 'timestamp' })
     expires: Date
 
-  @Column({ name: 'user_id' })
+  @PrimaryColumn({ name: 'user_id' })
     userId: number
 
   @OneToMany(() => UserEntity, (u) => u.id, { eager: true })
   @JoinColumn({ name: 'user_id' })
     user: UserEntity
 
-  @Column({ name: 'client_id' })
+  @PrimaryColumn({ name: 'client_id' })
     clientId: string
 
-  @OneToMany(() => ClientEntity, (c) => c.id, { eager: true })
+  @OneToOne(() => ClientEntity, (c) => c.id, { eager: true })
   @JoinColumn({ name: 'client_id' })
     client: ClientEntity
 }
@@ -52,7 +49,7 @@ export class AccessTokenEntity {
   @Column({ name: 'client_id' })
     clientId: string
 
-  @OneToMany(() => ClientEntity, (c) => c.id, { eager: true })
+  @OneToOne(() => ClientEntity, (c) => c.id, { eager: true })
   @JoinColumn({ name: 'client_id' })
     client: ClientEntity
 }
@@ -78,7 +75,7 @@ export class RefreshTokenEntity {
   @Column({ name: 'client_id' })
     clientId: string
 
-  @OneToMany(() => ClientEntity, (c) => c.id, { eager: true })
+  @OneToOne(() => ClientEntity, (c) => c.id, { eager: true })
   @JoinColumn({ name: 'client_id' })
     client: ClientEntity
 }

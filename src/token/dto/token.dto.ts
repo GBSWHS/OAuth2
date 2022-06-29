@@ -1,12 +1,12 @@
 export interface AuthorizationCodeDto {
   scope: string[],
   clientId: string,
-  userId: string,
+  userId: number,
   redirectUri: string
 }
 
 export interface AccessTokenDto {
   scope: string[],
   clientId: string,
-  userId: string
+  userId: number
 }

@@ -5,7 +5,7 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
     id: number
 
-  @PrimaryColumn()
+  @Column()
     name: string
 
   @Column()

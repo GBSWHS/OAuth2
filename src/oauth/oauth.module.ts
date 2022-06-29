@@ -8,6 +8,7 @@ import { OauthService } from './oauth.service'
 import { ClientModule } from '../client/client.module'
 import { ScopeModule } from '../scope/scope.module'
 import { TokenModule } from '../token/token.module'
+import { ClientService } from '../client/client.service'
 
 @Module({
   imports: [

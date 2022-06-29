@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { AuthorizationCodeDto, AccessTokenDto } from './dto/token.dto'
 import { AccessTokenEntity, AuthorizationCodeEntity, RefreshTokenEntity } from './token.entity'
+import crypto from 'crypto'
 
 @Injectable()
 export class TokenService {
@@ -16,7 +17,13 @@ export class TokenService {
   ) {}
 
   generateAuthorizationCode (body: AuthorizationCodeDto): string {
-    this.authorizationCodeRepository.insert(body)
+    const { scope, clientId, userId, redirectUri } = body
+    const code = crypto.randomBytes(22).toString('hex')
+    this.authorizationCodeRepository.insert({
+      code, redirectUri, clientId, userId
+    })
+
+    return code
   }
 
   async getAuthorizationCode (code: string) {

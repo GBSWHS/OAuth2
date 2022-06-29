@@ -18,6 +18,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.27.1
   class-transformer: ^0.5.1
   class-validator: ^0.13.2
+  crypto: ^1.0.1
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-config-standard: ^17.0.0
@@ -52,6 +53,7 @@ dependencies:
   '@nestjs/typeorm': 8.1.2_kvs4m6j2eakw2dq3erjkezkywa
   class-transformer: 0.5.1
   class-validator: 0.13.2
+  crypto: 1.0.1
   helmet: 5.1.0
   mysql2: 2.3.3
   reflect-metadata: 0.1.13
@@ -2120,6 +2122,11 @@ packages:
 
   /crypt/0.0.2:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
+    dev: false
+
+  /crypto/1.0.1:
+    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
     dev: false
 
   /cssom/0.3.8:
